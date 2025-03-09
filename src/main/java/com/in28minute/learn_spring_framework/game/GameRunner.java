@@ -11,9 +11,17 @@ public class GameRunner {
 	 */
 	
 	
-	private SuperContraGame game;
+	/*2. 현재 상태는 SuperContraGame게임에 결합되어있다.
+	 * private SuperContraGame game;
+	 * 
+	 * public GameRunner(SuperContraGame game) { this.game = game; }
+	 */
 	
-	public GameRunner(SuperContraGame game) {
+	
+	//인터페이스를 사용하면 느슨한 결합으로 인해 여러가지 게임에 동시에 연결가능하다
+	private GamingConsole game;
+	
+	public GameRunner(GamingConsole game) { 
 		this.game = game;
 	}
 

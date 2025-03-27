@@ -1,5 +1,8 @@
 package com.in28minute.learn_spring_framework;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class App02HelloWorldSpring {
@@ -38,7 +41,35 @@ public class App02HelloWorldSpring {
 		// expected single matching bean but found 2: address2,address3 / 컴파일 시 1개의 address를 기대하지만 address2, address3이 있기때문에 에러가나게됨
 		// System.out.println(context.getBean(Address.class));
 		
-
+		// Q1 스프링 컨테이너, 스프링 컨텍스트, IOC컨테이너, 어플리케이션 컨텍스트 란 무엇인가?
+		//   -스프링컨테이너 = 스프링 컨텍스트 or IOC컨테이너(IOC란 제어의 역전). 스프링 컨테이너는 스프링빈과 수명주기를 관리한다. 이는 클래스와 인풋을가지고 실행되는 시스템을 만드는것을 의미
+		//   -에플리케이션 컨텍스트는 웹어플리케이션, 웹서비스, Rest API, 마이크로서비스에 사용
+		
+		// Q2 Java Bean vs Spring Bean
+		// POJO vs Java Bean vs Spring Bean 
+		// POJO : 일반적인 오래된 Java객체. 제약 없음. 모든 자바객체는 POJO이다.
+		// Java Bean : 세 가지 제약을 준수하는 클래스
+		//  1. public no-arg constructor (public javaBean(){} ※아무것도 없는 생성자)
+		//  2. getter, setter 필요
+		//  3. Serializable
+		// Spring Bean : Spring이 관리하는 모든 Java 객체 
+		
+		// Q3 스프링 프레임워크가 관리하는 Bean을 모두 나열하려면 어떻게해야되나
+		// Spring Bean을 나열하려면 Context를 요청해야한다. context.getBeanDefinitionNames()를 사용하면 이 레지스트리에 정의된 모든 이름을 반환한다.
+		// context.getBeanDefinitionCount()는 레지스트리에 정의된 Bean 개수를 반환한다. context.getBeanDefinition()은 Bean의 이름을 매개변수로 구문 분석할수도 있다.
+		// getBeanDefinitionNames을 반복하고 모든것을 출력하는법
+		Arrays.stream(context.getBeanDefinitionNames())
+			.forEach(System.out::println);
+		
+		// Q4 여러개의 Bean을 사용할 수 있으면 어떻게 될까?
+		// 일치하는 후보가 여러개인 시나리오에서는 예외가 출력된다/
+		// 이 문제를 수정하는 방법은 이 중 하나를 기본으로 만드는것이다. @Primary
+		System.out.println(context.getBean(Person.class));
+		// 다른 한가지는 Bean을 한정자로 만드는것이다 @Qualifier("address3qualifier")
+		System.out.println(context.getBean("person5Qualifier"));
+		
+		// Q5 스프링은 객체를 관리하고 자동 연결도 수행한다. -코드를 작성해 객체를 만드는건 누구냐? -스프링이 객체를 만들게하면안되나?
+		
 		
 	}
 
